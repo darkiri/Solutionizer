@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix 
+  xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+>
+
+  <?define VERSION="!(bind.FileVersion.Solutionizer.exe)"?>
+  <?define PRODUCTPATH="$(var.ARTIFACTSDIR)\Solutionizer.exe"?>
+
+  <Product 
+    Id="*" 
+    Name="Solutionizer" 
+    Language="1033" 
+    Version="$(var.VERSION)" 
+    Manufacturer="Thomas Freudenberg" 
+    UpgradeCode="{185D2B04-B962-4061-B040-0121BD068518}"
+  >
+    <Package 
+      Description="Solutionizer"
+      Manufacturer="Thomas Freudenberg"
+      InstallerVersion="200" 
+      Compressed="yes" 
+      InstallScope="perUser" 
+    />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="Icon.exe" SourceFile="$(var.PRODUCTPATH)" />
+    <Property Id="ARPPRODUCTICON" Value="Solutionizer.exe" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/thoemmi/Solutionizer" />
+
+    <Feature Id="ProductFeature" Title="Solutionizer" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="INSTALLFOLDER" Name="Solutionizer" />
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="{2B712E26-9E2A-4365-A3EC-45332EB5EC2C}">
+
+        <RegistryKey Root="HKCU" Key="Software\ThomasFreudenberg\Solutionizer">
+          <RegistryValue Name="Version" Value="[ProductVersion]" Type="string" KeyPath="yes" />
+        </RegistryKey>
+
+        <CreateFolder />
+        <RemoveFolder Id="RemoveAppRootDirectory" On="uninstall" />
+
+        <File Id="Solutionizer.exe" Source="$(var.PRODUCTPATH)"/>
+        <!--<File Id="Caliburn.Micro.dll" Source="$(var.PRODUCTPATH)"/>-->
+
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
