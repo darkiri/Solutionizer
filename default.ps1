@@ -77,7 +77,8 @@ Task Package {
         Expand-ZipFile -zipPath $wixZipFile -destination $wix_dir
     }
 
-    #& "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -var env.SolutionizerFiles -out "$build_artifacts_dir\FilesFragment.wxs"
+#    & "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -var env.SolutionizerFiles -out "$build_artifacts_dir\FilesFragment.wxs"
+    & "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$build_artifacts_dir\FilesFragment.wxs"
 
     #Exec { &"$candle_path" .\Solutionizer.wxs -dARTIFACTSDIR=$build_artifacts_dir -out ""$build_artifacts_dir\\"" }
     Exec { &"$candle_path" .\Solutionizer.wxs "-dARTIFACTSDIR=$build_artifacts_dir" -out `"$build_artifacts_dir\\`" }

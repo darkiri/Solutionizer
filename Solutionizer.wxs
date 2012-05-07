@@ -26,7 +26,7 @@
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
-    <Icon Id="Icon.exe" SourceFile="$(var.PRODUCTPATH)" />
+    <Icon Id="Solutionizer.exe" SourceFile="$(var.PRODUCTPATH)" />
     <Property Id="ARPPRODUCTICON" Value="Solutionizer.exe" />
     <Property Id="ARPHELPLINK" Value="https://github.com/thoemmi/Solutionizer" />
 
@@ -40,6 +40,9 @@
       <Directory Id="LocalAppDataFolder">
         <Directory Id="INSTALLFOLDER" Name="Solutionizer" />
       </Directory>
+                  <Directory Id="ProgramMenuFolder">
+                <Directory Id="ApplicationProgramsFolder" Name="My Application Name"/>
+            </Directory>
     </Directory>
   </Fragment>
 
@@ -54,10 +57,42 @@
         <CreateFolder />
         <RemoveFolder Id="RemoveAppRootDirectory" On="uninstall" />
 
-        <File Id="Solutionizer.exe" Source="$(var.PRODUCTPATH)"/>
-        <!--<File Id="Caliburn.Micro.dll" Source="$(var.PRODUCTPATH)"/>-->
+        <File Id="Solutionizer.exe" Source="$(var.PRODUCTPATH)">
+            <!--<Shortcut Id='startmenuSolutionizer' Directory='ProgramMenuDir' Name='Solutionizer' Advertise='yes' />-->
+        </File>
 
       </Component>
+
+            <Component Id="cmpD31F5EF4CC334564314D0673C5706C7A" Guid="{8B913B89-9F2D-4544-B5CC-04814191F99D}">
+                <File Id="filB616149A55DCE0B2E9E6492125920C35" KeyPath="yes" Source="SourceDir\Caliburn.Micro.dll" />
+            </Component>
+            <Component Id="cmp0A1EF4947B54C05C431ECC954CE855AA" Guid="{E753801E-9280-4E09-BFA1-8753A5411F44}">
+                <File Id="filCCB47B1836A107D05F1B468961222D8F" KeyPath="yes" Source="SourceDir\Caliburn.Micro.Logging.dll" />
+            </Component>
+            <Component Id="cmpC4C45F5C73470548BBE744FCE7A5C403" Guid="{6F2E051A-87F9-44C0-8C40-C72236BD65C8}">
+                <File Id="fil8FEF346D83DAE29F3D8DEA35C91827E7" KeyPath="yes" Source="SourceDir\Caliburn.Micro.Logging.NLog.dll" />
+            </Component>
+            <Component Id="cmpFF4123DA97B2417442446BD4FF887917" Guid="{04CE8D46-453E-4D0B-98FB-6F2746992155}">
+                <File Id="filC4554478BFCA62AE34680EF77C739897" KeyPath="yes" Source="SourceDir\MahApps.Metro.dll" />
+            </Component>
+            <Component Id="cmpE48528C4F5932A4EFD89F7331108F45D" Guid="{CF3C8602-0617-4D31-8889-FCE26DF62592}">
+                <File Id="filF1B84C2C6BCC693224B7A7959445B74F" KeyPath="yes" Source="SourceDir\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmp0758E167CC73C057A0ECE2DC5E35F506" Guid="{AE6CC66E-0219-4023-8A16-891F63A41D0F}">
+                <File Id="fil61D8D3E960CBBF3448E98CF5D5492B82" KeyPath="yes" Source="SourceDir\NLog.dll" />
+            </Component>
+            <Component Id="cmp2FB9179AA3BAE088E096D891067057F9" Guid="{E9ECFBF4-0418-40E8-A8C3-D6424E2E4F70}">
+                <File Id="fil21C5BEBACA0BFBD25C9131B16CFC50AC" KeyPath="yes" Source="SourceDir\Ookii.Dialogs.Wpf.dll" />
+            </Component>
+<!--            <Component Id="cmp027C70C82C5DEBAA39B7EF498DCF4740" Guid="{ADC207FA-37B0-4B2D-AEDF-780F2FD5EC14}">
+                <File Id="fil5E940D37F691ED32BD941FA2AF80B7AB" KeyPath="yes" Source="SourceDir\Solutionizer.exe.config" />
+            </Component>-->
+            <Component Id="cmp7610FA931ED264E2DDF8F5B6D53D1873" Guid="{E9BF2202-ED36-49C7-8AFE-70540C7A3F73}">
+                <File Id="fil5789A3F41EE337A1B8F482A64C786BDE" KeyPath="yes" Source="SourceDir\System.Windows.Interactivity.dll" />
+            </Component>
+            <Component Id="cmp038A2DD8322C7B09FC275C31312BA66B" Guid="{F98DE704-0770-4B00-898C-B64E4AD12121}">
+                <File Id="fil4527D3EFA86B7F0A96C1F7470FDC4E62" KeyPath="yes" Source="SourceDir\WPFSpark.dll" />
+            </Component>      
     </ComponentGroup>
   </Fragment>
 </Wix>
