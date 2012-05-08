@@ -1,67 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix 
+<Wix
   xmlns="http://schemas.microsoft.com/wix/2006/wi"
   xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
 >
 
-  <?define VERSION="!(bind.FileVersion.Solutionizer.exe)"?>
-  <?define PRODUCTPATH="$(var.ARTIFACTSDIR)\Solutionizer.exe"?>
+    <?define VERSION="!(bind.FileVersion.Solutionizer.exe)"?>
+    <?define PRODUCTPATH="$(var.ARTIFACTSDIR)\Solutionizer.exe"?>
 
-  <Product 
-    Id="*" 
-    Name="Solutionizer" 
-    Language="1033" 
-    Version="$(var.VERSION)" 
-    Manufacturer="Thomas Freudenberg" 
-    UpgradeCode="{185D2B04-B962-4061-B040-0121BD068518}"
-  >
-    <Package 
-      Description="Solutionizer"
+    <Product
+      Id="*"
+      Name="Solutionizer"
+      Language="1033"
+      Version="$(var.VERSION)"
       Manufacturer="Thomas Freudenberg"
-      InstallerVersion="200" 
-      Compressed="yes" 
-      InstallScope="perUser" 
-    />
+      UpgradeCode="{185D2B04-B962-4061-B040-0121BD068518}">
+        <Package
+          Description="Solutionizer"
+          Manufacturer="Thomas Freudenberg"
+          InstallerVersion="200"
+          Compressed="yes" />
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <MediaTemplate EmbedCab="yes" />
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+        <MediaTemplate EmbedCab="yes" />
 
-    <Icon Id="Solutionizer.exe" SourceFile="$(var.PRODUCTPATH)" />
-    <Property Id="ARPPRODUCTICON" Value="Solutionizer.exe" />
-    <Property Id="ARPHELPLINK" Value="https://github.com/thoemmi/Solutionizer" />
+        <Icon Id="Solutionizer.exe" SourceFile="$(var.PRODUCTPATH)" />
+        <Property Id="ARPPRODUCTICON" Value="Solutionizer.exe" />
+        <Property Id="ARPHELPLINK" Value="https://github.com/thoemmi/Solutionizer" />
 
-    <Feature Id="ProductFeature" Title="Solutionizer" Level="1">
-      <ComponentGroupRef Id="ProductComponents" />
-    </Feature>
-  </Product>
+        <Feature Id="ProductFeature" Title="Solutionizer" Level="1">
+            <ComponentGroupRef Id="ProductComponents" />
+        </Feature>
 
-  <Fragment>
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="LocalAppDataFolder">
-        <Directory Id="INSTALLFOLDER" Name="Solutionizer" />
-      </Directory>
-                  <Directory Id="ProgramMenuFolder">
-                <Directory Id="ApplicationProgramsFolder" Name="My Application Name"/>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id='ProgramFilesFolder' Name='PFiles'>
+                <Directory Id='INSTALLFOLDER' Name='Solutionizer'>
+                </Directory>
             </Directory>
-    </Directory>
-  </Fragment>
 
-  <Fragment>
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <Component Id="ProductComponent" Guid="{2B712E26-9E2A-4365-A3EC-45332EB5EC2C}">
+            <!--<Directory Id="ProgramMenuFolder" Name="Programs">
+                <Directory Id="ProgramMenuDir" Name="Solutionizer">
+                    <Component Id="ProgramMenuDir" Guid="{8E4DF0AC-DA69-461A-BDEE-03E036F5E3C7}">
+                        <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+                    </Component>
+                </Directory>
+            </Directory>-->
 
-        <RegistryKey Root="HKCU" Key="Software\ThomasFreudenberg\Solutionizer">
-          <RegistryValue Name="Version" Value="[ProductVersion]" Type="string" KeyPath="yes" />
-        </RegistryKey>
+        </Directory>
 
-        <CreateFolder />
-        <RemoveFolder Id="RemoveAppRootDirectory" On="uninstall" />
+    </Product>
 
-        <File Id="Solutionizer.exe" Source="$(var.PRODUCTPATH)">
-            <!--<Shortcut Id='startmenuSolutionizer' Directory='ProgramMenuDir' Name='Solutionizer' Advertise='yes' />-->
-        </File>
+    <Fragment>
+        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+            <Component Id="ProductComponent" Guid="{2B712E26-9E2A-4365-A3EC-45332EB5EC2C}">
+                <File Id="Solutionizer.exe" Source="$(var.PRODUCTPATH)"/>
+                <!--<Shortcut Id="startmenuSolutionizer" Directory="ProgramMenuDir" Name="Solutionizer" WorkingDirectory='INSTALLFOLDER' Icon="Solutionizer.exe" IconIndex="0" Advertise="yes" />-->
 
-      </Component>
+                <RemoveFolder Id='INSTALLFOLDER' On='uninstall' />
+            </Component>
 
             <Component Id="cmpD31F5EF4CC334564314D0673C5706C7A" Guid="{8B913B89-9F2D-4544-B5CC-04814191F99D}">
                 <File Id="filB616149A55DCE0B2E9E6492125920C35" KeyPath="yes" Source="SourceDir\Caliburn.Micro.dll" />
@@ -84,15 +79,17 @@
             <Component Id="cmp2FB9179AA3BAE088E096D891067057F9" Guid="{E9ECFBF4-0418-40E8-A8C3-D6424E2E4F70}">
                 <File Id="fil21C5BEBACA0BFBD25C9131B16CFC50AC" KeyPath="yes" Source="SourceDir\Ookii.Dialogs.Wpf.dll" />
             </Component>
-<!--            <Component Id="cmp027C70C82C5DEBAA39B7EF498DCF4740" Guid="{ADC207FA-37B0-4B2D-AEDF-780F2FD5EC14}">
+            <Component Id="cmp027C70C82C5DEBAA39B7EF498DCF4740" Guid="{ADC207FA-37B0-4B2D-AEDF-780F2FD5EC14}">
                 <File Id="fil5E940D37F691ED32BD941FA2AF80B7AB" KeyPath="yes" Source="SourceDir\Solutionizer.exe.config" />
-            </Component>-->
+            </Component>
             <Component Id="cmp7610FA931ED264E2DDF8F5B6D53D1873" Guid="{E9BF2202-ED36-49C7-8AFE-70540C7A3F73}">
                 <File Id="fil5789A3F41EE337A1B8F482A64C786BDE" KeyPath="yes" Source="SourceDir\System.Windows.Interactivity.dll" />
             </Component>
             <Component Id="cmp038A2DD8322C7B09FC275C31312BA66B" Guid="{F98DE704-0770-4B00-898C-B64E4AD12121}">
                 <File Id="fil4527D3EFA86B7F0A96C1F7470FDC4E62" KeyPath="yes" Source="SourceDir\WPFSpark.dll" />
-            </Component>      
-    </ComponentGroup>
-  </Fragment>
+            </Component>
+        </ComponentGroup>
+
+
+    </Fragment>
 </Wix>
