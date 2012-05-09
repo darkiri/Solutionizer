@@ -1,7 +1,5 @@
 Framework "4.0"
 
-. .\psake_ext.ps1
-
 Properties {
     $base_dir = Split-Path $psake.build_script_file
     $build_artifacts_dir = "$base_dir\build"
@@ -9,6 +7,8 @@ Properties {
 }
 
 task Default -depends Clean, Compile
+
+include .\psake_ext.ps1
 
 task CreateAssemblyInfo {
     $gittag = & git describe --tags --long
@@ -66,19 +66,21 @@ Task Package {
     $light_path = "$wix_dir\light.exe"
     $heat_path = "$wix_dir\heat.exe"
 
-    if (!(Test-Path $wix_dir)) {
+    if (!(Test-Path $candle_path)) {
         if (!(Test-Path $wixZipFile)) {
             Write-Host "Downloading WiX toolset from $wixUrl"
             Get-WebFile -url $wixUrl -fileName $wixZipFile
         }
 
-        New-Item $wix_dir -Type directory | Out-Null
+	    if (!(Test-Path $wix_dir)) {
+        	New-Item $wix_dir -Type directory | Out-Null
+		}
         Write-Host "Extracting WiX toolset to $wix_dir"
         Expand-ZipFile -zipPath $wixZipFile -destination $wix_dir
     }
 
-#    & "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -var env.SolutionizerFiles -out "$build_artifacts_dir\FilesFragment.wxs"
-    & "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$build_artifacts_dir\FilesFragment.wxs"
+	#& "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -var env.SolutionizerFiles -out "$build_artifacts_dir\FilesFragment.wxs"
+    #& "$heat_path" dir "$build_artifacts_dir" -cg SolutionizerFiles -gg -scom -sreg -sfrag -srd -dr INSTALLLOCATION -out "$build_artifacts_dir\FilesFragment.wxs"
 
     #Exec { &"$candle_path" .\Solutionizer.wxs -dARTIFACTSDIR=$build_artifacts_dir -out ""$build_artifacts_dir\\"" }
     Exec { &"$candle_path" .\Solutionizer.wxs "-dARTIFACTSDIR=$build_artifacts_dir" -out `"$build_artifacts_dir\\`" }
