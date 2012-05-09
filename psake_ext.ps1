@@ -1,9 +1,9 @@
 function Expand-ZipFile {
-    param {
+    param(
        $zipPath,
        $destination,
        [switch] $quiet
-    }
+    )
 
     $shellApplication = new-object -com shell.application
     $zipPackage = $shellApplication.NameSpace($zipPath)
@@ -101,7 +101,7 @@ function Get-WebFile {
       }
    }
    $res.Close(); 
-   #if($fileName) {
-   #   ls $fileName
-   #}
+   if($fileName) {
+      ls $fileName
+   }
 }
