@@ -86,5 +86,5 @@ Task Package {
     Exec { &"$candle_path" .\Solutionizer.wxs "-dARTIFACTSDIR=$build_artifacts_dir" -out `"$build_artifacts_dir\\`" }
 
     #Exec { &"$light_path" ""$build_artifacts_dir\Solutionizer.wixobj"" }
-    Exec { &"$light_path" "$build_artifacts_dir\Solutionizer.wixobj" "-dARTIFACTSDIR=$build_artifacts_dir" -out `"$build_artifacts_dir\\solutionizer.msi`" }
+    Exec { &"$light_path" -ext WixUIExtension "$build_artifacts_dir\Solutionizer.wixobj" "-dARTIFACTSDIR=$build_artifacts_dir" -out `"$build_artifacts_dir\\solutionizer.msi`" }
 }

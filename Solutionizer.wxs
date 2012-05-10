@@ -26,11 +26,14 @@
         <Icon Id="Solutionizer.exe" SourceFile="$(var.PRODUCTPATH)" />
         <Property Id="ARPPRODUCTICON" Value="Solutionizer.exe" />
         <Property Id="ARPHELPLINK" Value="https://github.com/thoemmi/Solutionizer" />
+      
+        <UIRef Id="WixUI_Mondo" />
 
         <Feature Id="ProductFeature" Title="Solutionizer" Level="1">
             <ComponentGroupRef Id="ProductComponents" />
-        <ComponentRef Id="ProgramMenuDir" />
-        </Feature>
+          <ComponentRef Id="ProgramMenuDir" />
+        </Feature>     
+      
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id='ProgramFilesFolder' Name='PFiles'>
