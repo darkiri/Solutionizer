@@ -7,15 +7,17 @@
     <?define VERSION="!(bind.FileVersion.Solutionizer.exe)"?>
     <?define PRODUCTPATH="$(var.ARTIFACTSDIR)\Solutionizer.exe"?>
 
-    <Product
-      Id="*"
+    <Product      
       Name="Solutionizer"
       Language="1033"
       Version="$(var.VERSION)"
       Manufacturer="Thomas Freudenberg"
+      Id="{252B591E-6D58-40A8-B18B-0A29C103543B}"
       UpgradeCode="{185D2B04-B962-4061-B040-0121BD068518}">
         <Package
-          Description="Solutionizer"
+          Id="*"
+          Keywords="Installer"
+          Description="Solutionizer Installer"
           Manufacturer="Thomas Freudenberg"
           InstallerVersion="200"
           Compressed="yes" />
@@ -27,7 +29,7 @@
         <Property Id="ARPPRODUCTICON" Value="Solutionizer.exe" />
         <Property Id="ARPHELPLINK" Value="https://github.com/thoemmi/Solutionizer" />
       
-        <UIRef Id="WixUI_Mondo" />
+        <UIRef Id="WixUI_Minimal" />
 
         <Feature Id="ProductFeature" Title="Solutionizer" Level="1">
             <ComponentGroupRef Id="ProductComponents" />
