@@ -7,7 +7,7 @@
              xmlns:Converters="clr-namespace:Solutionizer.Converters" 
              xmlns:Helper="clr-namespace:Solutionizer.Helper"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d" 
+             mc:Ignorable="d" 
              xmlns:Infrastructure="clr-namespace:Solutionizer.Infrastructure"
              xmlns:ViewModels="clr-namespace:Solutionizer.ViewModels"
              d:DataContext="{d:DesignInstance Type=ViewModels:SolutionViewModel}"
@@ -55,12 +55,13 @@
         <TextBlock Margin="0 2">Selected projects:</TextBlock>
 
         <TreeView 
-            x:Name="SolutionItems"
+            ItemsSource="{Binding SolutionItems}"
             Grid.Row="1"
             VirtualizingStackPanel.IsVirtualizing="True"
             VirtualizingStackPanel.VirtualizationMode="Recycling" 
             Helper:DragDropHelper.IsDropTarget="True" 
             Helper:DragDropHelper.DropCommand="{Binding DropCommand}"
+            DataContext="{Binding}"
             Margin="3 3 0 3">
             <i:Interaction.Behaviors>
                 <Infrastructure:BindableSelectedItemBehavior SelectedItem="{Binding SelectedItem}" />
@@ -70,15 +71,16 @@
                     <Infrastructure:InputBindingTrigger.InputBinding>
                         <KeyBinding Key="Delete"/>
                     </Infrastructure:InputBindingTrigger.InputBinding>
-                    <cal:ActionMessage MethodName="RemoveSolutionItem"/>
+                    <i:InvokeCommandAction Command="{Binding RemoveSelectedProjectCommand}" />
                 </Infrastructure:InputBindingTrigger>
             </i:Interaction.Triggers>
         </TreeView>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Margin="10 0 4 0">
-            <Button x:Name="Launch" Content="Launch" Margin="0 0 0 4" MinWidth="75"/>
-            <Button x:Name="Save" Content="Save" Margin="0 0 0 14" MinWidth="75"/>
-            <Button x:Name="Clear" Content="Clear" Margin="0 0 0 4" MinWidth="75"/>
+            <Button Command="{Binding LaunchCommand}" Content="Launch" Margin="0 0 0 4" MinWidth="75"/>
+            <Button Command="{Binding SaveCommand}" Content="Save" Margin="0 0 0 14" MinWidth="75"/>
+            <Button Command="{Binding ClearCommand}" Content="Clear" Margin="0 0 0 4" MinWidth="75"/>
+            <Button Command="{Binding RemoveSelectedProjectCommand}" Content="Remove" Margin="0 0 0 4" MinWidth="75"/>
         </StackPanel>
     </Grid>
 </UserControl>

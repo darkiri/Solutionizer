@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Caliburn.Micro;
 using Ookii.Dialogs.Wpf;
 using Solutionizer.Infrastructure;
@@ -18,6 +19,9 @@ namespace Solutionizer.ViewModels {
             _projectRepository = new ProjectRepositoryViewModel(settings);
             _dialogManager = dialogManager;
             DisplayName = "Solutionizer";
+
+            _projectRepository.SelectRootCommand.Subscribe(_ => SelectRootPath());
+            _projectRepository.MouseDblClickCommand.Subscribe(obj => OnDoubleClick((ItemViewModel) obj));
         }
 
         public ProjectRepositoryViewModel ProjectRepository {
@@ -46,7 +50,7 @@ namespace Solutionizer.ViewModels {
             }
         }
 
-        public void SelectRootPath() {
+        private void SelectRootPath() {
             var dlg = new VistaFolderBrowserDialog {
                 SelectedPath = _settings.RootPath
             };

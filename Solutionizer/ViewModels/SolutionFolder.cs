@@ -1,6 +1,6 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
+using ReactiveUI;
 using Solutionizer.Infrastructure;
 using Solutionizer.Models;
 
@@ -12,7 +12,7 @@ namespace Solutionizer.ViewModels {
         public SolutionFolder(SolutionFolder parent) : base(parent) {
         }
 
-        public ObservableCollection<SolutionItem> Items {
+        public ReactiveCollection<SolutionItem> Items {
             get { return _items; }
         }
 

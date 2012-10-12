@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using ReactiveUI;
 
 namespace Solutionizer.Infrastructure {
-    public class SortedObservableCollection<T> : ObservableCollection<T> {
+    public class SortedObservableCollection<T> : ReactiveCollection<T> {
         private readonly IComparer<T> _comparer;
 
         public SortedObservableCollection(IComparer<T> comparer) {
