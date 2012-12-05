@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.Linq;
 using Caliburn.Micro;
 using Solutionizer.Models;
 using Solutionizer.Services;
@@ -9,7 +10,7 @@ namespace Solutionizer.ViewModels {
         private readonly ISettings _settings;
         private string _rootPath;
         private ProjectFolder _rootFolder;
-        private ICollectionView _nodes;
+        private IList _nodes;
         private string _filter;
 
         public ProjectRepositoryViewModel(ISettings settings) {
@@ -32,7 +33,17 @@ namespace Solutionizer.ViewModels {
                 if (_rootFolder != value) {
                     _rootFolder = value;
                     NotifyOfPropertyChange(() => RootFolder);
-                    Nodes = CreateDirectoryViewModel(_rootFolder, null).Children;
+                    Nodes = CreateDirectoryViewModel(_rootFolder, null).Children.ToList();
+                }
+            }
+        }
+
+        public IList Nodes {
+            get { return _nodes; }
+            private set {
+                if (!ReferenceEquals(_nodes, value)) {
+                    _nodes = value;
+                    NotifyOfPropertyChange(() => Nodes);
                 }
             }
         }
@@ -43,23 +54,21 @@ namespace Solutionizer.ViewModels {
                 if (_filter != value) {
                     _filter = value;
                     NotifyOfPropertyChange(() => Filter);
-                    Nodes.Refresh();
+                    UpdateFilter();
                 }
             }
         }
 
-        public ICollectionView Nodes{
-            get { return _nodes; }
-            private set {
-                if (!ReferenceEquals(_nodes, value)) {
-                    _nodes = value;
-                    NotifyOfPropertyChange(() => Nodes);
+        private void UpdateFilter() {
+            if (_nodes != null) {
+                foreach (var item in _nodes.Cast<ItemViewModel>()) {
+                    item.Filter(_filter);
                 }
             }
         }
 
         private DirectoryViewModel CreateDirectoryViewModel(ProjectFolder projectFolder, DirectoryViewModel parent) {
-            var viewModel = new DirectoryViewModel(_settings, parent, projectFolder, FilterNodes);
+            var viewModel = new DirectoryViewModel(parent, projectFolder);
             if (_settings.IsFlatMode) {
                 foreach (var project in new[]{projectFolder}.Flatten(f => f.Projects, f => f.Folders)) {
                     viewModel.Projects.Add(CreateProjectViewModel(project, viewModel));
@@ -77,10 +86,6 @@ namespace Solutionizer.ViewModels {
 
         private ProjectViewModel CreateProjectViewModel(Project project, DirectoryViewModel parent) {
             return new ProjectViewModel(parent, project);
-        }
-
-        private bool FilterNodes(ItemViewModel item) {
-            return string.IsNullOrEmpty(Filter) || item.Name.ToUpper().Contains(Filter.ToUpper());
         }
     }
 }
